@@ -183,6 +183,7 @@ class Cube:
     def ejecutarAlgoritmo(self, algoritmo):
         algoritmo = algoritmo.replace("'", "p").lower().split();
         for movimiento in algoritmo:
+            print(movimiento);
             self.__ejecutarMovimiento(movimiento);
-            #self.imprimir();
+            self.imprimir();
     
