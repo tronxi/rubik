@@ -167,7 +167,7 @@ class Cube:
         self.__B();
         self.__B();
     
-    def __ejecutarMovimiento(self, movimiento):
+    def ejecutarMovimiento(self, movimiento):
         movimiento = movimiento.lower();
         if movimiento == 'r':
             self.__R();
@@ -211,13 +211,19 @@ class Cube:
         elif movimiento == 'b2':
             self.__B();
             self.__B();
+        return self.cubo;
+    
+    def reset(self):
+        self.__inicializar();
+        return self.cubo;
     
     def ejecutarAlgoritmo(self, algoritmo):
         algoritmo = algoritmo.replace("'", "p").lower().split();
         for movimiento in algoritmo:
             #print(movimiento);
-            self.__ejecutarMovimiento(movimiento);
+            self.ejecutarMovimiento(movimiento);
             #self.imprimir();
+        return self.cubo;
             
     def ejecutar(self):
         self.imprimir();
