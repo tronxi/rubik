@@ -1,5 +1,4 @@
 import numpy as np;
-
 class Cube:
     BLANCO = 0;
     VERDE = 1;
@@ -40,8 +39,11 @@ class Cube:
                     self.cubo[cara, x, y] = cara;            
         
     def __rotarCaraReloj(self, cara):
-        self.cubo[cara] = np.rot90(self.cubo[cara], -1)
-        
+        cuboAux = np.copy(self.cubo);
+        for x in range(self.piezas):
+            print()
+            cuboAux[cara, :, (self.piezas - 1)- x] = self.cubo[cara, x]
+        self.cubo = np.copy(cuboAux);
     def __rotarCaraContrarioReloj(self, cara):
         self.cubo[cara] = np.rot90(self.cubo[cara]);
         
@@ -50,9 +52,16 @@ class Cube:
         for fila in range(self.piezas):
             for columna in range(self.piezas):
                 cuboAux[self.VERDE, fila, 2] = self.cubo[self.AMARILLO, fila, 2]
-                cuboAux[self.AMARILLO, fila, 2] = self.cubo[self.AZUL, fila, 0]
-                cuboAux[self.AZUL, fila, 0] = self.cubo[self.BLANCO, fila, 2]
                 cuboAux[self.BLANCO, fila, 2] = self.cubo[self.VERDE, fila, 2]
+                
+        cuboAux[self.AZUL, 0, 0] = self.cubo[self.BLANCO, 2, 2]
+        cuboAux[self.AZUL, 1, 0] = self.cubo[self.BLANCO, 1, 2]
+        cuboAux[self.AZUL, 2, 0] = self.cubo[self.BLANCO, 0, 2]
+        
+        cuboAux[self.AMARILLO, 0, 2] = self.cubo[self.AZUL, 2, 0]
+        cuboAux[self.AMARILLO, 1, 2] = self.cubo[self.AZUL, 1, 0]
+        cuboAux[self.AMARILLO, 2, 2] = self.cubo[self.AZUL, 0, 0]
+
         self.cubo = np.copy(cuboAux);
         self.__rotarCaraReloj(self.ROJO)
     def __Rp(self):
@@ -65,9 +74,14 @@ class Cube:
         for fila in range(self.piezas):
             for columna in range(self.piezas):
                 cuboAux[self.VERDE, fila, 0] = self.cubo[self.BLANCO, fila, 0]
-                cuboAux[self.BLANCO, fila, 0] = self.cubo[self.AZUL, fila, 2]
-                cuboAux[self.AZUL, fila, 2] = self.cubo[self.AMARILLO, fila, 0]
                 cuboAux[self.AMARILLO, fila, 0] = self.cubo[self.VERDE, fila, 0]
+        cuboAux[self.BLANCO, 0, 0] = self.cubo[self.AZUL, 2, 2]
+        cuboAux[self.BLANCO, 1, 0] = self.cubo[self.AZUL, 1, 2]
+        cuboAux[self.BLANCO, 2, 0] = self.cubo[self.AZUL, 0, 2]
+        
+        cuboAux[self.AZUL, 0, 2] = self.cubo[self.AMARILLO, 2, 0]
+        cuboAux[self.AZUL, 1, 2] = self.cubo[self.AMARILLO, 1, 0]
+        cuboAux[self.AZUL, 2, 2] = self.cubo[self.AMARILLO, 0, 0]
         self.cubo = np.copy(cuboAux);
         self.__rotarCaraReloj(self.NARANJA)
     def __Lp(self):
@@ -107,12 +121,21 @@ class Cube:
         
     def __F(self):
         cuboAux = np.copy(self.cubo);
-        for fila in range(self.piezas):
-            for columna in range(self.piezas):
-                cuboAux[self.BLANCO, 2, columna] = self.cubo[self.NARANJA, fila, 2]
-                cuboAux[self.NARANJA, fila, 2] = self.cubo[self.AMARILLO, 0, columna]
-                cuboAux[self.AMARILLO, 0, columna] = self.cubo[self.ROJO, fila, 0]
-                cuboAux[self.ROJO, fila, 0] = self.cubo[self.BLANCO, 2, columna]
+        cuboAux[self.BLANCO, 2, 0] = self.cubo[self.NARANJA, 2, 2]
+        cuboAux[self.BLANCO, 2, 1] = self.cubo[self.NARANJA, 1, 2]
+        cuboAux[self.BLANCO, 2, 2] = self.cubo[self.NARANJA, 0, 2]
+        
+        cuboAux[self.AMARILLO, 0, 0] = self.cubo[self.ROJO, 2, 0]
+        cuboAux[self.AMARILLO, 0, 1] = self.cubo[self.ROJO, 1, 0]
+        cuboAux[self.AMARILLO, 0, 2] = self.cubo[self.ROJO, 0, 0]
+        
+        cuboAux[self.NARANJA, 0, 2] = self.cubo[self.AMARILLO, 0, 0]
+        cuboAux[self.NARANJA, 1, 2] = self.cubo[self.AMARILLO, 0, 1]
+        cuboAux[self.NARANJA, 2, 2] = self.cubo[self.AMARILLO, 0, 2]
+        
+        cuboAux[self.ROJO, 0, 0] = self.cubo[self.BLANCO, 2, 0]
+        cuboAux[self.ROJO, 1, 0] = self.cubo[self.BLANCO, 2, 1]
+        cuboAux[self.ROJO, 2, 0] = self.cubo[self.BLANCO, 2, 2]
         self.cubo = np.copy(cuboAux);
         self.__rotarCaraReloj(self.VERDE)
     def __Fp(self):
@@ -122,12 +145,21 @@ class Cube:
         
     def __B(self):
         cuboAux = np.copy(self.cubo);
-        for fila in range(self.piezas):
-            for columna in range(self.piezas):
-                cuboAux[self.BLANCO, 0, columna] = self.cubo[self.ROJO, fila, 2]
-                cuboAux[self.ROJO, fila, 2] = self.cubo[self.AMARILLO, 2, columna]
-                cuboAux[self.AMARILLO, 2, columna] = self.cubo[self.NARANJA, fila, 0]
-                cuboAux[self.NARANJA, fila, 0] = self.cubo[self.BLANCO, 0, columna]
+        cuboAux[self.BLANCO, 0, 0] = self.cubo[self.ROJO, 0, 2]
+        cuboAux[self.BLANCO, 0, 1] = self.cubo[self.ROJO, 1, 2]
+        cuboAux[self.BLANCO, 0, 2] = self.cubo[self.ROJO, 2, 2]
+        
+        cuboAux[self.ROJO, 0, 2] = self.cubo[self.AMARILLO, 2, 2]
+        cuboAux[self.ROJO, 1, 2] = self.cubo[self.AMARILLO, 2, 1]
+        cuboAux[self.ROJO, 2, 2] = self.cubo[self.AMARILLO, 2, 0]
+        
+        cuboAux[self.AMARILLO, 2, 0] = self.cubo[self.NARANJA, 0, 0]
+        cuboAux[self.AMARILLO, 2, 1] = self.cubo[self.NARANJA, 1, 0]
+        cuboAux[self.AMARILLO, 2, 2] = self.cubo[self.NARANJA, 2, 0]
+        
+        cuboAux[self.NARANJA, 0, 0] = self.cubo[self.BLANCO, 0, 2]
+        cuboAux[self.NARANJA, 1, 0] = self.cubo[self.BLANCO, 0, 1]
+        cuboAux[self.NARANJA, 2, 0] = self.cubo[self.BLANCO, 0, 0];
         self.cubo = np.copy(cuboAux);
         self.__rotarCaraReloj(self.AZUL)
     def __Bp(self):
@@ -183,7 +215,12 @@ class Cube:
     def ejecutarAlgoritmo(self, algoritmo):
         algoritmo = algoritmo.replace("'", "p").lower().split();
         for movimiento in algoritmo:
-            print(movimiento);
+            #print(movimiento);
             self.__ejecutarMovimiento(movimiento);
-            self.imprimir();
+            #self.imprimir();
+            
+    def ejecutar(self):
+        self.imprimir();
+        self.__rotarCaraReloj(self.ROJO);
+        self.imprimir();
     
