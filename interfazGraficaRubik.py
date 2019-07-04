@@ -5,7 +5,7 @@ import numpy as np;
 import rubik;
 import posicion;
 from functools import partial
-
+import solve;
 class InterfazGrafica():
 
     colores = ['white', 'green', 'orange', 'blue', 'red', 'yellow'];
@@ -14,14 +14,14 @@ class InterfazGrafica():
     
     def __init__(self):
         self.ins = rubik.Cube();
-        
+        self.solve = None;
         self.cuboGraficos = np.zeros((self.ins.caras, self.ins.piezas, self.ins.piezas), Label);
         self.posiciones = np.zeros((self.ins.caras, self.ins.piezas, self.ins.piezas), posicion.Posicion);
     
         self.crearPosiciones();
         
         self.raiz = Tk();
-        self.raiz.geometry('1050x500');
+        self.raiz.geometry('1050x550');
         self.raiz.configure(bg = 'beige')
         self.raiz.title('Rubik');
         
@@ -29,11 +29,18 @@ class InterfazGrafica():
         self.textAlgoritmo = Entry(self.raiz, width = 70);
         self.textAlgoritmo.grid(row = 15, column = 15);
         
+        self.textSolucionVar = StringVar();
+        self.textSolucion = Entry(self.raiz, width = 70, state = 'disabled', textvariable = self.textSolucionVar);
+        self.textSolucion.grid(row = 16, column = 15);
+        
         self.resetButton = Button(self.raiz, text="Reset", command=self.reset);
         self.resetButton.grid(row = 20,column = 0);
         
         self.algoritmoButton = Button(self.raiz, text="Ejecutar", command=self.algoritmo);
         self.algoritmoButton.grid(row = 15,column = 17);
+        
+        self.algoritmoButton = Button(self.raiz, text="Resolver", command=self.resolver);
+        self.algoritmoButton.grid(row = 16,column = 17);
         
         self.crearBotonesMovimiento();
         
@@ -107,6 +114,15 @@ class InterfazGrafica():
     def reset(self):
         cubo = self.ins.reset();
         self.actualizar(cubo);
+        
+    def resolver(self):
+        self.textSolucionVar.set('hoo');
+        self.solve = solve.Solve(self.ins);
+        resultado, algoritmoSolucion =  self.solve.resolver();
+        print('Resuelto con ' + algoritmoSolucion);
+        self.textSolucionVar.set(algoritmoSolucion);
+        
+    
         
     def actualizar(self, cubo):
         for cara in range(cubo.caras):

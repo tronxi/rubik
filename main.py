@@ -1,10 +1,16 @@
 import rubik;
-import numpy as np;
 import interfazGraficaRubik;
+import solve;
+
+# solve = solve.Solve();
+# resultado, algoritmoSolucion = solve.resolver();
+# print('Resuelto con final ' + algoritmoSolucion);
 
 # ins = rubik.Cube();
-# algoritmo = "R' D U B2 F' R2 U R2 B' F' D' B F2 R' F' L2 D2 L2 B L2 R D' L R2 F2 R B2 D' F L2";
+# algoritmo = "U L2 U' B2 D'";
 # ins.ejecutarAlgoritmo(algoritmo);
+# resultado, algoritmoSolucion = ins.resolver();
+# print('Resuelto con final ' + algoritmoSolucion);
+# ins.ejecutar();
 # ins.imprimir();
-
 interfazGraficaRubik.InterfazGrafica();

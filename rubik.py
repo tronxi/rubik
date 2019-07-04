@@ -1,4 +1,5 @@
 import numpy as np;
+import time;
 class Cube:
     BLANCO = 0;
     VERDE = 1;
@@ -8,7 +9,9 @@ class Cube:
     AMARILLO = 5;
     
     colores = ['b', 'v', 'n', 'a', 'r', 'A'];
-    
+    movimientos = ['R', 'Rp', 'R2', 'L', 'Lp', 'L2', 'U', 'Up', 'U2', 'D', 'Dp', 'D2', 'F', 'Fp', 'F2', 'B', 'Bp', 'B2'];
+    #movimientos = ['R', 'L', 'U', 'D', 'F', 'B'];
+
     def __init__(self):
         self.caras = 6;
         self.piezas = 3;
@@ -29,21 +32,26 @@ class Cube:
                 print('\n');
             print('\n');
         print('FIN');
-                    
-        
+    
+    
     def __inicializar(self):
         for cara in range(self.caras):
             for x in range(self.piezas):
                 for y in range(self.piezas):
-                    self.cubo[cara, x, y] = cara;            
+                    self.cubo[cara, x, y] = cara;
+    def resuelto(self):
+        for cara in range(self.caras):
+            for x in range(self.piezas):
+                for y in range(self.piezas):
+                    if self.cubo[cara, x, y] != cara:
+                        return False;
+        return True;
         
     def __rotarCaraReloj(self, cara):
         cuboAux = np.copy(self.cubo);
         for x in range(self.piezas):
             cuboAux[cara, :, (self.piezas - 1)- x] = self.cubo[cara, x]
         self.cubo = np.copy(cuboAux);
-    def __rotarCaraContrarioReloj(self, cara):
-        self.cubo[cara] = np.rot90(self.cubo[cara]);
         
     def __R(self):
         cuboAux = np.copy(self.cubo);
